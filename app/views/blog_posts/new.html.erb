@@ -1,12 +1,24 @@
 <h1>Add a Blog Post</h1>
 
-<%= form_with url: "/blog_posts", local: true do %>
-  <label for="title">Title</label>
-  <input type="text" name="title" />
-  <br />
-  <label for="content">Content</label>
-  <textarea name="content"></textarea>
+<%= form_with model: @post, local: true do |form| %>
+  <% if @post.errors.any? %>
+    <div style="background-color: red">
+      <h2>There is a problem. Please correct and resubmit</h2>
+      <ul>
+        <% @post.errors.full_messages.each do |error| %>
+          <li><%= error %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= form.label :title %>
+  <%= form.text_field :title %>
 
   <br />
-  <input type="submit" value="Submit" />
+  <%= form.label :content %>
+  <%= form.text_area :content %>
+
+  <br />
+  <%= form.submit :create %>
+
 <% end %>

@@ -10,16 +10,14 @@ class BlogPostsController < ApplicationController
   end
 
   def new
+    @post = BlogPost.new
     #render "new.html.erb"
   end
 
   def create
-    @post = BlogPost.new(
-      title: params[:title],
-      content: params[:content]
-    )
+    @post = BlogPost.new(blog_post_params)
 
-    if false && @post.save
+    if @post.save
       redirect_to @post
     else
       render action: :new
@@ -32,8 +30,18 @@ class BlogPostsController < ApplicationController
       redirect_to blog_posts_path
     else
       redirect_to blog_post_path(@post)
-    end 
+    end
 
   end
 
+  private
+  def blog_post_params
+    {blog_post:{
+        title: 'C#',
+        content: 'Its pointy'
+    }}
+    params
+      .require(:blog_post)
+      .permit([:title, :content])
+  end
 end
