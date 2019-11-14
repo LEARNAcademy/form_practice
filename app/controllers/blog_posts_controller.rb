@@ -6,21 +6,17 @@ class BlogPostsController < ApplicationController
 
   def show
     @post = BlogPost.find(params[:id])
+    render json: @post
     #render "show.html.erb"
   end
 
-  def new
-    @post = BlogPost.new
-    #render "new.html.erb"
-  end
 
   def create
     @post = BlogPost.new(blog_post_params)
-
     if @post.save
-      redirect_to @post
+      render json: @post, status: 200
     else
-      render action: :new
+      render json: @post.errors, status: 422
     end
   end
 
@@ -36,10 +32,6 @@ class BlogPostsController < ApplicationController
 
   private
   def blog_post_params
-    {blog_post:{
-        title: 'C#',
-        content: 'Its pointy'
-    }}
     params
       .require(:blog_post)
       .permit([:title, :content])

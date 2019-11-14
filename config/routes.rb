@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :guitars
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 
   get "blog_posts" => "blog_posts#index", as: "all_posts"
